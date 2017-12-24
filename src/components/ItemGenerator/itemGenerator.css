@@ -1,0 +1,12 @@
+.item {
+  display: inline-block;
+  opacity: 0
+}
+
+.items {
+  width: 300px;
+}
+
+.item.visible {
+  opacity: 1
+}
