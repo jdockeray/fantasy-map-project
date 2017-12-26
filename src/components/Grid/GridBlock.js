@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import FontAwesome from 'react-fontawesome'
 import { Nav, NavItem, Navbar } from 'react-bootstrap'
-import ItemGenerator from '../itemGenerator/itemGenerator'
-import Condition from '../util/Condition'
+import ItemGenerator from '../ItemGenerator/ItemGenerator'
+import Condition from '../Util/Condition'
 import './Grid.css'
 
 class GridBlock extends Component {
@@ -25,15 +25,7 @@ class GridBlock extends Component {
       })
     }
 
-    navInstance = () =>
-      (
-        <Nav bsStyle="pills" activeKey={this.state.configuration.element} onSelect={this.handleSelect}>
-          <NavItem eventKey="tree"><FontAwesome name="tree" /></NavItem>
-          <NavItem eventKey="chicken"><FontAwesome name="tree" /></NavItem>
-          <NavItem eventKey="tree3" ><FontAwesome name="tree" /></NavItem>
-          <NavItem eventKey="ship" ><FontAwesome name="ship" /></NavItem>
-        </Nav>
-      )
+
 
 
     render() {
@@ -47,12 +39,21 @@ class GridBlock extends Component {
         },
       } = this.state
 
+      const NavInstance = () => (
+        <Nav bsStyle="pills" activeKey={this.state.configuration.element} onSelect={this.handleSelect}>
+          <NavItem eventKey="tree"><FontAwesome name="tree" /></NavItem>
+          <NavItem eventKey="chicken"><FontAwesome name="tree" /></NavItem>
+          <NavItem eventKey="tree3" ><FontAwesome name="tree" /></NavItem>
+          <NavItem eventKey="ship" ><FontAwesome name="ship" /></NavItem>
+        </Nav>
+      )
+
       return (
         <div className="block" width={width}>
           <Condition rule={!!element}>
             <ItemGenerator type={element} />
           </Condition>
-          { this.navInstance() }
+          <NavInstance />
         </div>
       )
     }
