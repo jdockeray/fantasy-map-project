@@ -1,21 +1,27 @@
 import React from 'react'
+import { Button } from 'react-bootstrap'
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+} from 'react-router-dom'
 
 import ItemGenerator from './components/ItemGenerator/ItemGenerator'
 import Grid from './components/Grid/Grid'
+import Intro from './components/Intro/Intro'
 
 import './App.css'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src="images/deer-stag-buck-antler-head-shield_m1QI6S_L.png" className="App-logo" alt="logo" />
-        <h1 className="App-title">Welcome to Fantasy Maps Project</h1>
-        <p className="App-intro">
-          To get started, edit and save to reload.
-        </p>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <header className="App-header clearfix">
+          <Route exact path="/" component={ Intro } />
+          <Route path="" />
+        </header>
+      </div>
+    </Router>
   )
 }
 
