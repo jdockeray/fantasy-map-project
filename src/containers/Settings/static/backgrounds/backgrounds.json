@@ -1,0 +1,40 @@
+{
+    "images": [
+        {
+          "name": "hip-square",
+          "src": "/images/backgrounds/hip-square.png"
+        },
+        {
+          "name": "linedpaper",
+          "src": "/images/backgrounds/linedpaper_@2x.png"
+        },
+        {
+          "name": "natural-paper2",
+          "src": "/images/backgrounds/natural_paper_@2X.png"
+        },
+        {
+          "name": "paper",
+          "src": "/images/backgrounds/paper_@2X.png "
+        },
+        {
+          "name": "rice-paper2",
+          "src": "/images/backgrounds/ricepaper_v3_@2X.png"
+        },
+        {
+          "name": "lined-paper",
+          "src": "/images/backgrounds/linedpaper.png"
+        },
+        {
+          "name": "natural-paper",
+          "src": "/images/backgrounds/natural_paper.png"
+        },
+        {
+          "name": "rice-paper",
+          "src": "/images/backgrounds/ricepaper_v3.png"
+        },
+        {
+          "name": "seamless-paper",
+          "src": "/images/backgrounds/seamless_paper_texture.png"
+        }
+    ]
+}

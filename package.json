@@ -5,6 +5,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "eslint-config-airbnb": "^16.1.0",
+    "lodash": "^4.17.4",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-bootstrap": "^0.31.5",

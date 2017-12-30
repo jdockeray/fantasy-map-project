@@ -9,6 +9,9 @@ import {
 import ItemGenerator from './components/ItemGenerator/ItemGenerator'
 import Grid from './components/Grid/Grid'
 import Intro from './components/Intro/Intro'
+import Settings from './containers/Settings/Settings'
+import Map from './components/Map/Map'
+
 
 import './App.css'
 
@@ -18,8 +21,11 @@ function App() {
       <div className="App">
         <header className="App-header clearfix">
           <Route exact path="/" component={ Intro } />
-          <Route path="" />
+          <Route path="/settings" component={ Settings }/>
         </header>
+        <section class="main">
+          <Map />
+        </section>
       </div>
     </Router>
   )
