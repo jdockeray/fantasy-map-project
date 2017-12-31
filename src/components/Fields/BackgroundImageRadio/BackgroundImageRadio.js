@@ -15,7 +15,7 @@ export default class MyCustomInput extends Component {
       checked,
     } = input
     return (
-      <label className="imageRadio">
+      <label className="backgroundImageRadio">
         <div
           className={classNames(
             'backgroundBlock',

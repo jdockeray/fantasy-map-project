@@ -1,16 +1,16 @@
-.backgroundBlock  {
+.backgroundImageRadio .backgroundBlock  {
     width: 100px;
     height: 100px;
 }
 
-.checked {
+.backgroundImageRadio .checked {
     border: solid 5px #333;
 }
 
-.imageRadio {
+.backgroundImageRadio {
   margin: 5px;
 }
 
-.imageRadio input {
+.backgroundImageRadio input {
   display: none;
 }

@@ -1,0 +1,7 @@
+.imageRadio input {
+  display: none;
+}
+
+.imageRadio .checked  {
+  border: solid 5px #333;
+}
