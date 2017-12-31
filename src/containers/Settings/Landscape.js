@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './Settings.css'
 import { Field, reduxForm } from 'redux-form' // ES6
-import ImageRadio from '../../components/Fields/ImageRadio'
+import ImageRadio from '../../components/Fields/BackgroundImageRadio/BackgroundImageRadio'
 
 const landscapes = require('./static/landscapes/landscapes.json')
 

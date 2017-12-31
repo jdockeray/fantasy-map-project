@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import React, { Component } from 'react'
-import './ImageRadio.css'
+import './BackgroundImageRadio.css'
 
 export default class MyCustomInput extends Component {
   state={
