@@ -1,0 +1,206 @@
+{
+  "hills": {
+    "images": [
+      {
+        "name": "hills1",
+        "src": "/images/landscapes/hills/h1.png"
+      },
+      {
+        "name": "hills2",
+        "src": "/images/landscapes/hills/h2.png"
+      },
+      {
+        "name": "hills3",
+        "src": "/images/landscapes/hills/h3.png"
+      },
+      {
+        "name": "hills4",
+        "src": "/images/landscapes/hills/h4.png"
+      },
+      {
+        "name": "hills5",
+        "src": "/images/landscapes/hills/h5.png"
+      },
+      {
+        "name": "hills6",
+        "src": "/images/landscapes/hills/h6.png"
+      },
+      {
+        "name": "hills7",
+        "src": "/images/landscapes/hills/h7.png"
+      },
+      {
+        "name": "hills8",
+        "src": "/images/landscapes/hills/h8.png"
+      },
+      {
+        "name": "hills9",
+        "src": "/images/landscapes/hills/h9.png"
+      },
+      {
+        "name": "hills10",
+        "src": "/images/landscapes/hills/h10.png"
+      },
+      {
+        "name": "hills11",
+        "src": "/images/landscapes/hills/h11.png"
+      },
+      {
+        "name": "hills12",
+        "src": "/images/landscapes/hills/h12.png"
+      },
+      {
+        "name": "hills13",
+        "src": "/images/landscapes/hills/h13.png"
+      },
+      {
+        "name": "hills14",
+        "src": "/images/landscapes/hills/h14.png"
+      },
+      {
+        "name": "hills15",
+        "src": "/images/landscapes/hills/h15.png"
+      },
+      {
+        "name": "hills16",
+        "src": "/images/landscapes/hills/h16.png"
+      }
+    ]
+  },
+  "animals": {
+    "images": [
+        {
+          "name": "animals1",
+          "src": "/images/landscapes/animals/a1.png"
+        },
+        {
+          "name": "animals2",
+          "src": "/images/landscapes/animals/a2.png"
+        },
+        {
+          "name": "animals3",
+          "src": "/images/landscapes/animals/a3.png"
+        },
+        {
+          "name": "animals4",
+          "src": "/images/landscapes/animals/a4.png"
+        },
+        {
+          "name": "animals5",
+          "src": "/images/landscapes/animals/a5.png"
+        },
+        {
+          "name": "animals6",
+          "src": "/images/landscapes/animals/a6.png"
+        },
+        {
+          "name": "animals7",
+          "src": "/images/landscapes/animals/a7.png"
+        },
+        {
+          "name": "animals8",
+          "src": "/images/landscapes/animals/a8.png"
+        },
+        {
+          "name": "animals9",
+          "src": "/images/landscapes/animals/a9.png"
+        },
+        {
+          "name": "animals10",
+          "src": "/images/landscapes/animals/a10.png"
+        },
+        {
+          "name": "animals11",
+          "src": "/images/landscapes/animals/a11.png"
+        },
+        {
+          "name": "animals12",
+          "src": "/images/landscapes/animals/a12.png"
+        },
+        {
+          "name": "animals13",
+          "src": "/images/landscapes/animals/a13.png"
+        }
+    ]
+  },
+  "grass": {
+    "images": [
+      {
+        "name": "grass1",
+        "src": "/images/landscapes/grass/g1.png"
+      },
+      {
+        "name": "grass2",
+        "src": "/images/landscapes/grass/g2.png"
+      },
+      {
+        "name": "grass3",
+        "src": "/images/landscapes/grass/g3.png"
+      },
+      {
+        "name": "grass4",
+        "src": "/images/landscapes/grass/g4.png"
+      },
+      {
+        "name": "grass5",
+        "src": "/images/landscapes/grass/g5.png"
+      },
+      {
+        "name": "grass6",
+        "src": "/images/landscapes/grass/g6.png"
+      },
+      {
+        "name": "grass7",
+        "src": "/images/landscapes/grass/g7.png"
+      },
+      {
+        "name": "grass8",
+        "src": "/images/landscapes/grass/g8.png"
+      },
+      {
+        "name": "grass9",
+        "src": "/images/landscapes/grass/g9.png"
+      },
+      {
+        "name": "grass10",
+        "src": "/images/landscapes/grass/g10.png"
+      },
+      {
+        "name": "grass11",
+        "src": "/images/landscapes/grass/g11.png"
+      },
+      {
+        "name": "grass12",
+        "src": "/images/landscapes/grass/g12.png"
+      },
+      {
+        "name": "grass13",
+        "src": "/images/landscapes/grass/g13.png"
+      },
+      {
+        "name": "grass14",
+        "src": "/images/landscapes/grass/g14.png"
+      },
+      {
+        "name": "grass15",
+        "src": "/images/landscapes/grass/g15.png"
+      },
+      {
+        "name": "grass16",
+        "src": "/images/landscapes/grass/g16.png"
+      },
+      {
+        "name": "grass17",
+        "src": "/images/landscapes/grass/g17.png"
+      },
+      {
+        "name": "grass18",
+        "src": "/images/landscapes/grass/g18.png"
+      },
+      {
+        "name": "grass19",
+        "src": "/images/landscapes/grass/g19.png"
+      }
+    ]
+  }
+}

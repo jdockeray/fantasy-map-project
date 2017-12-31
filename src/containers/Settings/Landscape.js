@@ -4,25 +4,41 @@ import './Settings.css'
 import { Field, reduxForm } from 'redux-form' // ES6
 import ImageRadio from '../../components/Fields/ImageRadio'
 
-const backgrounds = require('./static/backgrounds/backgrounds.json')
+const landscapes = require('./static/landscapes/landscapes.json')
 
-export class BackgroundForm extends Component {
+export class LandscapeForm extends Component {
   static propTypes = {
     // title: PropTypes.string,
   }
 
   state = {
+    categories: {
+      images: [],
+    },
+  }
+
+  componentWillMount = () => {
+    const {
+      match,
+    } = this.props
+    this.setState({
+      categories: landscapes[match.params.category],
+    })
   }
 
   render() {
+    const {
+      categories,
+    } = this.state
+
     return (
       <div className="background">
         {
-          backgrounds.images.map(background =>
+          categories.images.map(background =>
             (<Field
               component={ImageRadio}
               type="radio"
-              name="background"
+              name="landscape"
               value={background.src}
               src={background.src}
             />))
@@ -34,5 +50,5 @@ export class BackgroundForm extends Component {
 
 export default reduxForm({
   form: 'settings',
-  destroyOnUnmount: false
-})(BackgroundForm)
+  destroyOnUnmount: false,
+})(LandscapeForm)

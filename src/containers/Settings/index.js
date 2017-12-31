@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom'
 import './Settings.css'
 import BackgroundForm from './Background'
+import LandscapeForm from './Landscape'
 import Nav from './Nav'
 
 
@@ -23,12 +24,20 @@ export class Settings extends Component {
       <div className="settings container">
         <Route path="/settings/:active" component={Nav} />
         <Route path="/settings/background" component={BackgroundForm} />
+        <Route path="/settings/landscape/:category" component={LandscapeForm} />
 
         <Route
           exact
           path="/"
           render={() => (
             <Redirect to="/settings/background" />
+          )}
+        />
+        <Route
+          exact
+          path="/settings/landscape"
+          render={() => (
+            <Redirect to="/settings/landscape/hills" />
           )}
         />
       </div>
