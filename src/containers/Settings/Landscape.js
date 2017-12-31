@@ -12,29 +12,18 @@ export class LandscapeForm extends Component {
   }
 
   state = {
-    categories: {
-      images: [],
-    },
   }
 
-  componentWillMount = () => {
-    const {
-      match,
-    } = this.props
-    this.setState({
-      categories: landscapes[match.params.category],
-    })
-  }
 
   render() {
     const {
-      categories,
-    } = this.state
+      match,
+    } = this.props
 
     return (
       <div className="background">
         {
-          categories.images.map(background =>
+          landscapes[match.params.category].images.map(background =>
             (<Field
               component={ImageRadio}
               type="radio"

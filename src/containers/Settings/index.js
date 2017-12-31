@@ -22,7 +22,7 @@ export class Settings extends Component {
   render() {
     return (
       <div className="settings container">
-        <Route path="/settings/:active" component={Nav} />
+        <Route path="/settings/:active/:category?" component={Nav} />
         <Route path="/settings/background" component={BackgroundForm} />
         <Route path="/settings/landscape/:category" component={LandscapeForm} />
 
