@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import './Settings.css'
 import { Field, reduxForm } from 'redux-form' // ES6
@@ -7,7 +6,7 @@ import ImageRadio from '../../components/Fields/ImageRadio'
 
 const backgrounds = require('./static/backgrounds/backgrounds.json')
 
-export class Settings extends Component {
+export class BackgroundForm extends Component {
   static propTypes = {
     // title: PropTypes.string,
   }
@@ -17,13 +16,13 @@ export class Settings extends Component {
 
   render() {
     return (
-      <div className="homeSettings">
+      <div className="background">
         {
           backgrounds.images.map(background =>
             (<Field
               component={ImageRadio}
               type="radio"
-              name='background'
+              name="background"
               value={background.src}
               src={background.src}
             />))
@@ -35,4 +34,4 @@ export class Settings extends Component {
 
 export default reduxForm({
   form: 'settings',
-})(Settings)
+})(BackgroundForm)

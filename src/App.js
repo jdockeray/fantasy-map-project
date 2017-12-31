@@ -6,10 +6,8 @@ import {
   Link,
 } from 'react-router-dom'
 
-import ItemGenerator from './components/ItemGenerator/ItemGenerator'
-import Grid from './components/Grid/Grid'
 import Intro from './components/Intro/Intro'
-import Settings from './containers/Settings/Settings'
+import Settings from './containers/Settings'
 import Map from './components/Map/Map'
 
 

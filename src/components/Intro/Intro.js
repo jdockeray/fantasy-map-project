@@ -10,7 +10,7 @@ export default function Intro() {
     <p className="App-intro">
       To get started, edit and save to reload.
     </p>
-    <Link to="/settings" className="btn btn-primary btn-lg active">
+    <Link to="/settings/background" className="btn btn-primary btn-lg active">
       Lets get started
     </Link>
   </span>)
