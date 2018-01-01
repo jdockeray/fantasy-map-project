@@ -8,7 +8,7 @@ import {
 
 import Intro from './components/Intro/Intro'
 import Settings from './containers/Settings'
-import Map from './components/Map/Map'
+import Map from './containers/Map'
 
 
 import './App.css'

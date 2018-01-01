@@ -3,48 +3,64 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { get } from 'lodash'
 import './Map.css'
-const mapStateToProps = state => ({
-  background: get(state, 'form.settings.values.background') || null,
-})
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  // myAction
-}, dispatch)
 
 class Map extends Component {
-  componentDidMount() {
+  static getMousePos = (canvas, evt) => {
+    const rect = canvas.getBoundingClientRect()
+    return {
+      x: evt.clientX - rect.left,
+      y: evt.clientY - rect.top,
+    }
+  }
+
+  handleClick = (evt) => {
     const {
       canvas,
       image,
     } = this
+
+    const {
+      position,
+      elementDimensions,
+    } = this.props
+
     const ctx = canvas.getContext('2d')
-    // const img = this.refs.image
-    // img.onload = () => {
-    //   ctx.drawImage(img, 0, 0)
-    //   ctx.font = '40px Courier'
-    //   ctx.fillText(this.props.text, 210, 75)
-    // }
+    const img = this.image
+    ctx.drawImage(img, position.x-canvas.offsetLeft, position.y)
   }
+
   render() {
     const {
-      background
+      background,
+      landscape,
+      position,
     } = this.props
 
     return (
-      <div>
+      <div
+        className="mapFrame"
+
+      >
         <canvas
           ref={(c) => { this.canvas = c }}
-          width={640}
-          height={425}
+          width={900}
+          height={600}
           id="map"
+          onClick={this.handleClick}
           style={{
             backgroundImage: `url(${background})`,
+            cursor: `url(${landscape}),auto`,
           }}
         />
-        {/* <img ref="image" src={cheese} className="hidden" /> */}
+        <img
+          ref={(i) => { this.image = i }}
+          src={landscape}
+          className="hidden"
+        />
       </div>
     )
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Map)
+export default Map
