@@ -8,10 +8,10 @@ export default function Intro() {
     <img src="images/deer-stag-buck-antler-head-shield_m1QI6S_L.png" className="App-logo" alt="logo" />
     <h1 className="App-title">Welcome to Fantasy Maps Project</h1>
     <p className="App-intro">
-      To get started, edit and save to reload.
+      Because real maps are boring
     </p>
     <Link to="/settings/background" className="btn btn-primary btn-lg active">
-      Lets get started
+      Click to get started
     </Link>
   </span>)
 }
