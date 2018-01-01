@@ -2,8 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { get } from 'lodash'
-import ReactCursorPosition from 'react-cursor-position';
+import ReactCursorPosition from 'react-cursor-position'
 import Map from '../../components/Map/Map'
+import { addMapItem } from './actions.js'
+import PropTypes from 'prop-types'
 
 const mapStateToProps = state => ({
   background: get(state, 'form.settings.values.background') || null,
@@ -11,17 +13,24 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  // myAction
+  addMapItem,
 }, dispatch)
 
 class MapWrapper extends Component {
+
+  static propTypes = {
+    addMapItem: PropTypes.func.isRequired,
+    background: PropTypes.string.isRequired,
+    landscape: PropTypes.string.isRequired
+  }
+
   state={}
 
   render() {
     return (
-        <ReactCursorPosition className="MapWrapper">
-          <Map {...this.props} />
-        </ReactCursorPosition>
+      <ReactCursorPosition className="MapWrapper">
+        <Map {...this.props} />
+      </ReactCursorPosition>
     )
   }
 }

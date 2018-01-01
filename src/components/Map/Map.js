@@ -1,17 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import { get } from 'lodash'
 import './Map.css'
-
+import PropTypes from 'prop-types'
 
 class Map extends Component {
-  static getMousePos = (canvas, evt) => {
-    const rect = canvas.getBoundingClientRect()
-    return {
-      x: evt.clientX - rect.left,
-      y: evt.clientY - rect.top,
-    }
+  static propTypes = {
+    addMapItem: PropTypes.func.isRequired,
+    position: PropTypes.object.isRequired,
+    background: PropTypes.string.isRequired,
+    landscape: PropTypes.string.isRequired,
   }
 
   handleClick = (evt) => {
@@ -21,13 +19,28 @@ class Map extends Component {
     } = this
 
     const {
-      position,
+      position: {
+        x,
+        y,
+      },
       elementDimensions,
+      addMapItem,
+      landscape
     } = this.props
 
+    const newMapItem = {
+      src: landscape,
+      x,
+      y,
+    }
+
+    // fire action
+    addMapItem(newMapItem)
+
+    // / add to canvas
     const ctx = canvas.getContext('2d')
     const img = this.image
-    ctx.drawImage(img, position.x-canvas.offsetLeft, position.y)
+    ctx.drawImage(img, x - canvas.offsetLeft, y)
   }
 
   render() {
