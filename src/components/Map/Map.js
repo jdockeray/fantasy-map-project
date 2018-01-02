@@ -11,7 +11,9 @@ class Map extends Component {
     landscape: PropTypes.string.isRequired,
     items: PropTypes.array.isRequired,
   }
-
+  state = {
+    images: {},
+  }
   componentDidUpdate(prevProps) {
     const {
       items,
@@ -23,9 +25,22 @@ class Map extends Component {
       ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
 
       items.forEach((item) => {
-        const baseImage = new Image()
-        baseImage.src = item.src
-        ctx.drawImage(baseImage, item.x, item.y)
+        if (this.state.images[item.src]) {
+          ctx.drawImage(this.state.images[item.src], item.x, item.y)
+        } else {
+          const baseImage = new Image()
+          baseImage.src = item.src
+          baseImage.onload = () => {
+            ctx.drawImage(baseImage, item.x, item.y)
+            this.setState({
+              ...this.state,
+              images: {
+                ...this.state.images,
+                [item.src]: baseImage,
+              },
+            })
+          }
+        }
       })
     }
   }
