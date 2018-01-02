@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { get } from 'lodash'
-import './Map.css'
 import PropTypes from 'prop-types'
+
+import './Map.css'
 
 class Map extends Component {
   static propTypes = {
@@ -10,44 +9,53 @@ class Map extends Component {
     position: PropTypes.object.isRequired,
     background: PropTypes.string.isRequired,
     landscape: PropTypes.string.isRequired,
+    items: PropTypes.array.isRequired,
   }
 
-  handleClick = (evt) => {
+  componentDidUpdate(prevProps) {
     const {
-      canvas,
-      image,
-    } = this
+      items,
+    } = this.props
 
+    if (prevProps.items.length !== items.length) {
+      const ctx = this.canvas.getContext('2d')
+
+      ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+
+      items.forEach((item) => {
+        const baseImage = new Image()
+        baseImage.src = item.src
+        ctx.drawImage(baseImage, item.x, item.y)
+      })
+    }
+  }
+
+  handleClick = () => {
     const {
       position: {
         x,
         y,
       },
-      elementDimensions,
       addMapItem,
-      landscape
+      landscape,
     } = this.props
+
+    if (!landscape) return
 
     const newMapItem = {
       src: landscape,
-      x,
+      x: x - this.canvas.offsetLeft,
       y,
     }
 
     // fire action
     addMapItem(newMapItem)
-
-    // / add to canvas
-    const ctx = canvas.getContext('2d')
-    const img = this.image
-    ctx.drawImage(img, x - canvas.offsetLeft, y)
   }
 
   render() {
     const {
       background,
       landscape,
-      position,
     } = this.props
 
     return (
@@ -65,11 +73,6 @@ class Map extends Component {
             backgroundImage: `url(${background})`,
             cursor: `url(${landscape}),auto`,
           }}
-        />
-        <img
-          ref={(i) => { this.image = i }}
-          src={landscape}
-          className="hidden"
         />
       </div>
     )

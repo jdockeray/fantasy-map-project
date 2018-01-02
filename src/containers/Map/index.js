@@ -10,6 +10,7 @@ import PropTypes from 'prop-types'
 const mapStateToProps = state => ({
   background: get(state, 'form.settings.values.background') || null,
   landscape: get(state, 'form.settings.values.landscape') || null,
+  items: state.map.items
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
