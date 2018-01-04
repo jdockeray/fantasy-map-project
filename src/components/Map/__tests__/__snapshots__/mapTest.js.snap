@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders empty props correctly 1`] = `
+<div
+  className="mapFrame"
+>
+  <canvas
+    height={600}
+    id="map"
+    onClick={[Function]}
+    style={
+      Object {
+        "backgroundImage": "url(null)",
+        "cursor": "url(null),auto",
+      }
+    }
+    width={900}
+  />
+</div>
+`;
