@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { get } from 'lodash'
+import { landscapeProps } from '../../helpers/propTypes'
 
 import './Map.css'
 
@@ -11,16 +13,17 @@ class Map extends Component {
   static propTypes = {
     addMapItem: PropTypes.func.isRequired,
     deleteMapItem: PropTypes.func.isRequired,
-    position: PropTypes.object.isRequired,
+    position: PropTypes.object,
     items: PropTypes.array.isRequired,
     editingMode: PropTypes.oneOf([ADD, DELETE]),
-    landscape: PropTypes.string,
+    landscape: landscapeProps,
     background: PropTypes.string,
   }
 
   static defaultProps = {
     background: '',
     editingMode: ADD,
+    landscape: false
   }
 
   state = {
@@ -66,15 +69,21 @@ class Map extends Component {
       },
       addMapItem,
       deleteMapItem,
-      landscape,
+      landscape: {
+        src,
+        width,
+        height
+      },
     } = this.props
 
-    if (!landscape) return
+    if (!this.props.landscape) return
 
     const newMapItem = {
-      src: landscape,
+      src,
       x: x - this.canvas.offsetLeft,
       y,
+      width,
+      height
     }
 
     // fire action
@@ -87,6 +96,8 @@ class Map extends Component {
       background,
       landscape,
     } = this.props
+
+    const backgroundImage = get(landscape, 'src')
 
     return (
       <div
@@ -101,7 +112,7 @@ class Map extends Component {
           onClick={this.handleClick}
           style={{
             backgroundImage: `url(${background})`,
-            cursor: `url(${landscape}),auto`,
+            cursor: `url(${backgroundImage}),auto`,
           }}
         />
       </div>

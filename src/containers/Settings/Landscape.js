@@ -1,10 +1,16 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './Settings.css'
-import { Field, reduxForm } from 'redux-form' // ES6
+import { Field, reduxForm, formValueSelector } from 'redux-form' // ES6
 import ImageRadio from '../../components/Fields/ImageRadio/ImageRadio'
-
+import { connect } from 'react-redux'
+import { get } from 'lodash'
+const selector = formValueSelector('settings')
 const landscapes = require('./static/landscapes/landscapes.json')
+
+const mapStateToProps = state => ({
+  landscapeCurrentValue: selector(state, 'landscape'),
+})
 
 export class LandscapeForm extends Component {
   static propTypes = {
@@ -18,6 +24,7 @@ export class LandscapeForm extends Component {
   render() {
     const {
       match,
+      landscapeCurrentValue
     } = this.props
 
     return (
@@ -30,6 +37,8 @@ export class LandscapeForm extends Component {
               name="landscape"
               value={background.src}
               src={background.src}
+              key={background.src}
+              checked={get(landscapeCurrentValue, 'src') === background.src}
             />))
         }
       </div>
@@ -40,4 +49,4 @@ export class LandscapeForm extends Component {
 export default reduxForm({
   form: 'settings',
   destroyOnUnmount: false,
-})(LandscapeForm)
+})(connect(mapStateToProps, null)(LandscapeForm))

@@ -21,7 +21,7 @@ function App() {
           <Route exact path="/" component={ Intro } />
           <Route path="/settings" component={ Settings }/>
         </header>
-        <section class="main">
+        <section className="main">
           <Map />
         </section>
       </div>

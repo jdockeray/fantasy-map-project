@@ -1,30 +1,30 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import PropTypes from 'prop-types'
 import { get } from 'lodash'
 import ReactCursorPosition from 'react-cursor-position'
 import Map from '../../components/Map/Map'
+import { landscapeProps } from '../../helpers/propTypes'
 import { addMapItem, deleteMapItem } from './actions'
-import PropTypes from 'prop-types'
 
 const mapStateToProps = state => ({
   background: get(state, 'form.settings.values.background') || null,
   landscape: get(state, 'form.settings.values.landscape') || null,
-  items: state.map.items
+  items: state.map.items,
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   addMapItem,
-  deleteMapItem
+  deleteMapItem,
 }, dispatch)
 
 class MapWrapper extends Component {
-
   static propTypes = {
     addMapItem: PropTypes.func.isRequired,
     deleteMapItem: PropTypes.func.isRequired,
-    background: PropTypes.string.isRequired,
-    landscape: PropTypes.string.isRequired
+    background: PropTypes.string,
+    landscape: landscapeProps,
   }
 
   state={}

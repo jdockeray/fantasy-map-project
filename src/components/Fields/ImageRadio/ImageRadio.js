@@ -1,16 +1,23 @@
 import classNames from 'classnames'
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import './ImageRadio.css'
 
 export default class MyCustomInput extends Component {
+  static propTypes = {
+    input: PropTypes.object.isRequired,
+  }
+
   state={
   }
 
   render() {
-    const { input, meta, src } = this.props
     const {
+      meta,
+      src,
       checked,
-    } = input
+      input: { onChange },
+    } = this.props
     return (
       <label className="imageRadio">
         <div
@@ -18,11 +25,22 @@ export default class MyCustomInput extends Component {
             checked,
           })}
         >
-          <img src={src} />
+          <img
+            src={src}
+            alt="A map icon"
+            ref={(image) => { this.image = image }}
+          />
         </div>
         <input
-          {...input}
+          {...this.props.input}
           type="radio"
+          onChange={() => {
+            onChange({
+              src,
+              width: this.image.width,
+              height: this.image.height,
+            })
+          }}
         />
       </label>
     )
