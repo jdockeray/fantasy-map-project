@@ -1,20 +1,20 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { get } from 'lodash'
-import { landscapeProps } from '../../helpers/propTypes'
+import { landscapeProps, itemProps } from '../../helpers/propTypes'
+import { getMousePos } from '../../helpers/utils'
 
 import './Map.css'
 
 // EDIT MODE: Constants
-const ADD = 'ADD'
-const DELETE = 'DELETE'
+export const ADD = 'ADD'
+export const DELETE = 'DELETE'
 
 class Map extends Component {
   static propTypes = {
     addMapItem: PropTypes.func.isRequired,
     deleteMapItem: PropTypes.func.isRequired,
-    position: PropTypes.object,
-    items: PropTypes.array.isRequired,
+    items: PropTypes.arrayOf(itemProps),
     editingMode: PropTypes.oneOf([ADD, DELETE]),
     landscape: landscapeProps,
     background: PropTypes.string,
@@ -23,7 +23,8 @@ class Map extends Component {
   static defaultProps = {
     background: '',
     editingMode: ADD,
-    landscape: false
+    landscape: false,
+    items: []
   }
 
   state = {
@@ -61,12 +62,8 @@ class Map extends Component {
     }
   }
 
-  handleClick = () => {
+  handleClick = (evt) => {
     const {
-      position: {
-        x,
-        y,
-      },
       addMapItem,
       deleteMapItem,
       landscape: {
@@ -80,8 +77,8 @@ class Map extends Component {
 
     const newMapItem = {
       src,
-      x: x - this.canvas.offsetLeft,
-      y,
+      x: getMousePos(evt, this.canvas).x,
+      y: getMousePos(evt, this.canvas).y,
       width,
       height
     }
