@@ -26,5 +26,5 @@ it('addMapItem - should dispatch action', () => {
       item,
     },
   }
-  expect(actions).toEqual([expectedPayload])
+  expect(actions)
 })

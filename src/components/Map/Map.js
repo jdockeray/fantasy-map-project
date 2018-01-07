@@ -3,17 +3,30 @@ import PropTypes from 'prop-types'
 
 import './Map.css'
 
+// EDIT MODE: Constants
+const ADD = 'ADD'
+const DELETE = 'DELETE'
+
 class Map extends Component {
   static propTypes = {
     addMapItem: PropTypes.func.isRequired,
+    deleteMapItem: PropTypes.func.isRequired,
     position: PropTypes.object.isRequired,
-    background: PropTypes.string.isRequired,
-    landscape: PropTypes.string.isRequired,
     items: PropTypes.array.isRequired,
+    editingMode: PropTypes.oneOf([ADD, DELETE]),
+    landscape: PropTypes.string,
+    background: PropTypes.string,
   }
+
+  static defaultProps = {
+    background: '',
+    editingMode: ADD,
+  }
+
   state = {
     images: {},
   }
+
   componentDidUpdate(prevProps) {
     const {
       items,
@@ -52,6 +65,7 @@ class Map extends Component {
         y,
       },
       addMapItem,
+      deleteMapItem,
       landscape,
     } = this.props
 
@@ -64,7 +78,8 @@ class Map extends Component {
     }
 
     // fire action
-    addMapItem(newMapItem)
+    if (ADD) addMapItem(newMapItem)
+    if (DELETE) deleteMapItem(newMapItem)
   }
 
   render() {

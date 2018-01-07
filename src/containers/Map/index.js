@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { get } from 'lodash'
 import ReactCursorPosition from 'react-cursor-position'
 import Map from '../../components/Map/Map'
-import { addMapItem } from './actions.js'
+import { addMapItem, deleteMapItem } from './actions'
 import PropTypes from 'prop-types'
 
 const mapStateToProps = state => ({
@@ -15,12 +15,14 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   addMapItem,
+  deleteMapItem
 }, dispatch)
 
 class MapWrapper extends Component {
 
   static propTypes = {
     addMapItem: PropTypes.func.isRequired,
+    deleteMapItem: PropTypes.func.isRequired,
     background: PropTypes.string.isRequired,
     landscape: PropTypes.string.isRequired
   }

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders empty props correctly 1`] = `
+exports[`Map Component: snapshot renders with multiple item 1`] = `
 <div
   className="mapFrame"
 >
@@ -11,7 +11,7 @@ exports[`renders empty props correctly 1`] = `
     style={
       Object {
         "backgroundImage": "url(null)",
-        "cursor": "url(null),auto",
+        "cursor": "url(another/amazing/image.png),auto",
       }
     }
     width={900}

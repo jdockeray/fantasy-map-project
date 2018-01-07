@@ -6,3 +6,11 @@ export const addMapItem = item => ({
     item,
   },
 })
+
+// Need to flesh this out
+export const deleteMapItem = item => ({
+  type: ADD_MAP_ITEM,
+  payload: {
+    item,
+  },
+})
