@@ -13,7 +13,7 @@ export const DELETE = 'DELETE'
 class Map extends Component {
   static propTypes = {
     addMapItem: PropTypes.func.isRequired,
-    deleteMapItem: PropTypes.func.isRequired,
+    deleteMapItems: PropTypes.func.isRequired,
     items: PropTypes.arrayOf(itemProps),
     editingMode: PropTypes.oneOf([ADD, DELETE]),
     landscape: landscapeProps,
@@ -105,7 +105,7 @@ class Map extends Component {
 
   handleDeleteMapItem = (evt) => {
     const {
-      deleteMapItem,
+      deleteMapItems,
       items,
     } = this.props
 
@@ -116,13 +116,16 @@ class Map extends Component {
     }
 
     // fire action
-    deleteMapItem(mousePosition, items)
+    deleteMapItems(mousePosition, items)
   }
 
   handleClick = (evt) => {
+    const {
+      editingMode
+    } = this.props
     // fire action
-    if (ADD) this.handleAddMapItem(evt)
-    if (DELETE) this.handleDeleteMapItem(evt)
+    if (editingMode === ADD) this.handleAddMapItem(evt)
+    if (editingMode === DELETE) this.handleDeleteMapItem(evt)
   }
 
 

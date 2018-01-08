@@ -7,7 +7,7 @@ import { get } from 'lodash'
 import ReactCursorPosition from 'react-cursor-position'
 import Map, { ADD, DELETE } from '../../components/Map/Map'
 import { landscapeProps } from '../../helpers/propTypes'
-import { addMapItem, deleteMapItem } from './actions'
+import { addMapItem, deleteMapItems } from './actions'
 
 const mapStateToProps = state => ({
   background: get(state, 'form.settings.values.background') || null,
@@ -17,13 +17,13 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   addMapItem,
-  deleteMapItem,
+  deleteMapItems,
 }, dispatch)
 
 class MapWrapper extends Component {
   static propTypes = {
     addMapItem: PropTypes.func.isRequired,
-    deleteMapItem: PropTypes.func.isRequired,
+    deleteMapItems: PropTypes.func.isRequired,
     background: PropTypes.string,
     landscape: landscapeProps,
   }
