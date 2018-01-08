@@ -24,7 +24,7 @@ class Map extends Component {
     background: '',
     editingMode: ADD,
     landscape: false,
-    items: []
+    items: [],
   }
 
   state = {
@@ -62,44 +62,78 @@ class Map extends Component {
     }
   }
 
-  handleClick = (evt) => {
+  getMouseCursor = () => {
+    const {
+      editingMode,
+      landscape,
+    } = this.props
+
+    switch (editingMode) {
+      case ADD:
+        return get(landscape, 'src')
+      case DELETE:
+        return '/images/icons/remove.png'
+      default:
+        return undefined
+    }
+  }
+
+  handleAddMapItem = (evt) => {
+    if (!this.props.landscape) return
+
     const {
       addMapItem,
-      deleteMapItem,
       landscape: {
         src,
         width,
-        height
+        height,
       },
     } = this.props
 
-    if (!this.props.landscape) return
 
     const newMapItem = {
       src,
       x: getMousePos(evt, this.canvas).x,
       y: getMousePos(evt, this.canvas).y,
       width,
-      height
+      height,
     }
 
     // fire action
-    if (ADD) addMapItem(newMapItem)
-    if (DELETE) deleteMapItem(newMapItem)
+    addMapItem(newMapItem)
   }
+
+  handleDeleteMapItem = (evt) => {
+    const {
+      deleteMapItem,
+      items,
+    } = this.props
+
+
+    const mousePosition = {
+      x: getMousePos(evt, this.canvas).x,
+      y: getMousePos(evt, this.canvas).y,
+    }
+
+    // fire action
+    deleteMapItem(mousePosition, items)
+  }
+
+  handleClick = (evt) => {
+    // fire action
+    if (ADD) this.handleAddMapItem(evt)
+    if (DELETE) this.handleDeleteMapItem(evt)
+  }
+
 
   render() {
     const {
       background,
-      landscape,
     } = this.props
-
-    const backgroundImage = get(landscape, 'src')
 
     return (
       <div
         className="mapFrame"
-
       >
         <canvas
           ref={(c) => { this.canvas = c }}
@@ -109,7 +143,7 @@ class Map extends Component {
           onClick={this.handleClick}
           style={{
             backgroundImage: `url(${background})`,
-            cursor: `url(${backgroundImage}),auto`,
+            cursor: `url(${this.getMouseCursor()}),auto`,
           }}
         />
       </div>
