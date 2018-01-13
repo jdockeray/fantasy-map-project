@@ -45,7 +45,7 @@ class Map extends Component {
         if (this.state.images[item.src]) {
           ctx.drawImage(this.state.images[item.src], item.x, item.y)
         } else {
-          const baseImage = new Image()
+          const baseImage = new Image() // eslint-disable-line
           baseImage.src = item.src
           baseImage.onload = () => {
             ctx.drawImage(baseImage, item.x, item.y)
@@ -121,7 +121,7 @@ class Map extends Component {
 
   handleClick = (evt) => {
     const {
-      editingMode
+      editingMode,
     } = this.props
     // fire action
     if (editingMode === ADD) this.handleAddMapItem(evt)

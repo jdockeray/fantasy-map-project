@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Button, ButtonGroup, Grid, Row, Col, Clearfix } from 'react-bootstrap'
+import { Button, ButtonGroup, Grid, Row, Col } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 import { get } from 'lodash'
-import ReactCursorPosition from 'react-cursor-position'
 import Map, { ADD, DELETE } from '../../components/Map/Map'
 import { landscapeProps } from '../../helpers/propTypes'
 import { addMapItem, deleteMapItems } from './actions'
@@ -22,10 +21,13 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 
 class MapWrapper extends Component {
   static propTypes = {
+    // actions
     addMapItem: PropTypes.func.isRequired,
     deleteMapItems: PropTypes.func.isRequired,
-    background: PropTypes.string,
-    landscape: landscapeProps,
+
+    // state
+    background: PropTypes.string.isRequired,
+    landscape: landscapeProps.isRequired,
   }
 
   state={
@@ -52,10 +54,10 @@ class MapWrapper extends Component {
           <Col md={1} />
 
           <Col md={10} >
-              <Map
-                {...this.props}
-                editingMode={this.state.editingMode}
-              />
+            <Map
+              {...this.props}
+              editingMode={this.state.editingMode}
+            />
           </Col>
         </Row>
       </Grid>
