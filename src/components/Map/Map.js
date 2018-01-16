@@ -5,26 +5,23 @@ import { landscapeProps, itemProps } from '../../helpers/propTypes'
 import { getMousePos } from '../../helpers/utils'
 
 import './Map.css'
-
-// EDIT MODE: Constants
-export const ADD = 'ADD'
-export const DELETE = 'DELETE'
+import { ADD, DELETE } from '../../containers/Map/types'
 
 class Map extends Component {
   static propTypes = {
     addMapItem: PropTypes.func.isRequired,
     deleteMapItems: PropTypes.func.isRequired,
-    items: PropTypes.arrayOf(itemProps),
-    editingMode: PropTypes.oneOf([ADD, DELETE]),
     landscape: landscapeProps,
     background: PropTypes.string,
+    map: PropTypes.shape({
+      items: PropTypes.arrayOf(itemProps),
+      editMode: PropTypes.oneOf([ADD, DELETE]),
+    }).isRequired,
   }
 
   static defaultProps = {
     background: '',
-    editingMode: ADD,
     landscape: false,
-    items: [],
   }
 
   state = {
@@ -33,10 +30,12 @@ class Map extends Component {
 
   componentDidUpdate(prevProps) {
     const {
-      items,
+      map: {
+        items,
+      },
     } = this.props
 
-    if (prevProps.items.length !== items.length) {
+    if (prevProps.map.items.length !== items.length) {
       const ctx = this.canvas.getContext('2d')
 
       ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
@@ -64,11 +63,13 @@ class Map extends Component {
 
   getMouseCursor = () => {
     const {
-      editingMode,
+      map: {
+        editMode,
+      },
       landscape,
     } = this.props
 
-    switch (editingMode) {
+    switch (editMode) {
       case ADD:
         return get(landscape, 'src')
       case DELETE:
@@ -106,7 +107,9 @@ class Map extends Component {
   handleDeleteMapItem = (evt) => {
     const {
       deleteMapItems,
-      items,
+      map: {
+        items,
+      },
     } = this.props
 
 
@@ -121,11 +124,13 @@ class Map extends Component {
 
   handleClick = (evt) => {
     const {
-      editingMode,
+      map: {
+        editMode,
+      },
     } = this.props
     // fire action
-    if (editingMode === ADD) this.handleAddMapItem(evt)
-    if (editingMode === DELETE) this.handleDeleteMapItem(evt)
+    if (editMode === ADD) this.handleAddMapItem(evt)
+    if (editMode === DELETE) this.handleDeleteMapItem(evt)
   }
 
 
