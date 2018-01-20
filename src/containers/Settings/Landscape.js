@@ -37,7 +37,7 @@ export class LandscapeForm extends Component {
   }
 
   static defaultProps = {
-    landscapeCurrentValue: undefined
+    landscapeCurrentValue: undefined,
   }
 
   state = {
