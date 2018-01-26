@@ -13,9 +13,11 @@ class Map extends Component {
     deleteMapItems: PropTypes.func.isRequired,
     landscape: landscapeProps,
     background: PropTypes.string,
+    mapEditMode: PropTypes.shape({
+      mode: PropTypes.oneOf([ADD, DELETE]),
+    }).isRequired,
     map: PropTypes.shape({
       items: PropTypes.arrayOf(itemProps),
-      editMode: PropTypes.oneOf([ADD, DELETE]),
     }).isRequired,
   }
 
@@ -63,13 +65,11 @@ class Map extends Component {
 
   getMouseCursor = () => {
     const {
-      map: {
-        editMode,
-      },
+      mapEditMode,
       landscape,
     } = this.props
 
-    switch (editMode) {
+    switch (mapEditMode.mode) {
       case ADD:
         return get(landscape, 'src')
       case DELETE:
@@ -124,13 +124,13 @@ class Map extends Component {
 
   handleClick = (evt) => {
     const {
-      map: {
-        editMode,
+      mapEditMode: {
+        mode,
       },
     } = this.props
     // fire action
-    if (editMode === ADD) this.handleAddMapItem(evt)
-    if (editMode === DELETE) this.handleDeleteMapItem(evt)
+    if (mode === ADD) this.handleAddMapItem(evt)
+    if (mode === DELETE) this.handleDeleteMapItem(evt)
   }
 
 

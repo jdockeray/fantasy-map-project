@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Button, ButtonGroup, Grid, Row, Col } from 'react-bootstrap'
+import { Grid, Row, Col } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 import { get } from 'lodash'
+import Control from '../../components/Map/Control'
 import Map from '../../components/Map/Map'
-// import { ADD, DELETE } from './types'
 import { landscapeProps } from '../../helpers/propTypes'
 import { addMapItem, deleteMapItems, changeEditMode } from './actions'
 import * as editTypes from './types'
@@ -14,6 +14,7 @@ const mapStateToProps = state => ({
   background: get(state, 'form.settings.values.background') || null,
   landscape: get(state, 'form.settings.values.landscape') || null,
   map: state.map,
+  mapEditMode: state.mapEditMode,
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
@@ -30,8 +31,13 @@ class MapWrapper extends Component {
     changeEditMode: PropTypes.func.isRequired,
 
     // state
-    background: PropTypes.string.isRequired,
-    landscape: landscapeProps.isRequired,
+    background: PropTypes.string,
+    landscape: landscapeProps,
+  }
+
+  defaultProps: {
+    background: '',
+    landscape: ''
   }
 
   handleEditMode = (evt) => {
@@ -41,15 +47,24 @@ class MapWrapper extends Component {
     }
   }
 
+  formatTypeForControl = type => ({
+    label: type,
+    text: type.toLowerCase(),
+  })
+
+
   render() {
     return (
       <Grid>
         <Row>
-          <ButtonGroup>
-            <Button value={editTypes.ADD} onClick={this.handleEditMode}>add</Button>
-            <Button value={editTypes.DELETE} onClick={this.handleEditMode}>delete</Button>
-            <Button disabled>landscapes</Button>
-          </ButtonGroup>
+          <Control
+            items={[
+              this.formatTypeForControl(editTypes.ADD),
+              this.formatTypeForControl(editTypes.DELETE),
+              this.formatTypeForControl(editTypes.SELECT),
+            ]}
+            callback={this.handleEditMode}
+          />
         </Row>
         <Row>
           <Col md={1} />

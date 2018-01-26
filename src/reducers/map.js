@@ -11,7 +11,7 @@ const initialState = {
   items: [],
 }
 
-function mapReducer(state = initialState, action) {
+function map(state = initialState, action) {
   switch (action.type) {
     case DELETE_MAP_ITEM: {
       const {
@@ -20,15 +20,6 @@ function mapReducer(state = initialState, action) {
         },
       } = action
       return dotProp.set(state, 'items', items)
-    }
-
-    case CHANGE_EDIT_MODE: {
-      const {
-        payload: {
-          mode,
-        },
-      } = action
-      return dotProp.set(state, 'editMode', mode)
     }
 
     case ADD_MAP_ITEM: {
@@ -45,4 +36,4 @@ function mapReducer(state = initialState, action) {
   }
 }
 
-export default mapReducer
+export default map
