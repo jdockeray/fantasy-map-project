@@ -4,17 +4,34 @@ import { bindActionCreators } from 'redux'
 import { Grid, Row, Col } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 import { get } from 'lodash'
+import { createSelector } from 'reselect'
 import Control from '../../components/Map/Control'
 import Map from '../../components/Map/Map'
 import { landscapeProps } from '../../helpers/propTypes'
 import { addMapItem, deleteMapItems, changeEditMode } from './actions'
 import * as editTypes from './types'
 
+const mapEditModeSelector = state => state.mapEditMode
+
+const mapEditModeControls = createSelector(
+  mapEditModeSelector,
+  mapEditType => [
+    editTypes.ADD,
+    editTypes.DELETE,
+    editTypes.SELECT,
+  ].map(label => ({
+    label,
+    text: label.toLowerCase(),
+    active: label === mapEditType.mode,
+  })),
+)
+
 const mapStateToProps = state => ({
   background: get(state, 'form.settings.values.background') || null,
   landscape: get(state, 'form.settings.values.landscape') || null,
   map: state.map,
   mapEditMode: state.mapEditMode,
+  mapControls: mapEditModeControls(state),
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
@@ -33,36 +50,34 @@ class MapWrapper extends Component {
     // state
     background: PropTypes.string,
     landscape: landscapeProps,
+
+    // selectors
+    mapControls: PropTypes.arrayOf(PropTypes.shape({
+      label: PropTypes.string,
+      text: PropTypes.string,
+      active: PropTypes.bool,
+    })).isRequired,
   }
 
-  defaultProps: {
+  static defaultProps = {
     background: '',
-    landscape: ''
+    landscape: '',
   }
 
   handleEditMode = (evt) => {
-    const editType = get(evt, 'target.value')
-    if (Object.keys(editTypes).indexOf(editType) !== -1) {
-      this.props.changeEditMode(get(evt, 'target.value'))
-    }
+    this.props.changeEditMode(get(evt, 'target.value'))
   }
 
-  formatTypeForControl = type => ({
-    label: type,
-    text: type.toLowerCase(),
-  })
-
-
   render() {
+    const {
+      mapControls,
+    } = this.props
+
     return (
       <Grid>
         <Row>
           <Control
-            items={[
-              this.formatTypeForControl(editTypes.ADD),
-              this.formatTypeForControl(editTypes.DELETE),
-              this.formatTypeForControl(editTypes.SELECT),
-            ]}
+            items={mapControls}
             callback={this.handleEditMode}
           />
         </Row>
