@@ -8,7 +8,7 @@ import { createSelector } from 'reselect'
 import Control from '../../components/Map/Control'
 import Map from '../../components/Map/Map'
 import { landscapeProps } from '../../helpers/propTypes'
-import { addMapItem, deleteMapItems, changeEditMode } from './actions'
+import { addMapItem, deleteMapItems, changeEditMode, selectMapItems } from './actions'
 import * as editTypes from './types'
 
 const mapEditModeSelector = state => state.mapEditMode
@@ -38,6 +38,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   addMapItem,
   deleteMapItems,
   changeEditMode,
+  selectMapItems,
 }, dispatch)
 
 class MapWrapper extends Component {
@@ -46,10 +47,19 @@ class MapWrapper extends Component {
     addMapItem: PropTypes.func.isRequired,
     deleteMapItems: PropTypes.func.isRequired,
     changeEditMode: PropTypes.func.isRequired,
+    selectMapItems: PropTypes.func.isRequired,
 
     // state
     background: PropTypes.string,
     landscape: landscapeProps,
+    map: PropTypes.shape({
+      items: PropTypes.arrayOf(PropTypes.shape({
+        width: PropTypes.number.isRequired,
+        height: PropTypes.number.isRequired,
+        x: PropTypes.number.isRequired,
+        y: PropTypes.number.isRequired,
+      })).isRequired,
+    }).isRequired,
 
     // selectors
     mapControls: PropTypes.arrayOf(PropTypes.shape({
@@ -83,7 +93,6 @@ class MapWrapper extends Component {
         </Row>
         <Row>
           <Col md={1} />
-
           <Col md={10} >
             <Map
               {...this.props}

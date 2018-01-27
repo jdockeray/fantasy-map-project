@@ -5,19 +5,28 @@ import { landscapeProps, itemProps } from '../../helpers/propTypes'
 import { getMousePos } from '../../helpers/utils'
 
 import './Map.css'
-import { ADD, DELETE } from '../../containers/Map/types'
+import { ADD, DELETE, SELECT } from '../../containers/Map/types'
 
 class Map extends Component {
   static propTypes = {
+    // action callbacks
+    selectMapItems: PropTypes.func.isRequired,
     addMapItem: PropTypes.func.isRequired,
     deleteMapItems: PropTypes.func.isRequired,
+
+    // state
+    map: PropTypes.shape({
+      items: PropTypes.arrayOf(PropTypes.shape({
+        width: PropTypes.number.isRequired,
+        height: PropTypes.number.isRequired,
+        x: PropTypes.number.isRequired,
+        y: PropTypes.number.isRequired,
+      })).isRequired,
+    }).isRequired,
     landscape: landscapeProps,
     background: PropTypes.string,
     mapEditMode: PropTypes.shape({
       mode: PropTypes.oneOf([ADD, DELETE]),
-    }).isRequired,
-    map: PropTypes.shape({
-      items: PropTypes.arrayOf(itemProps),
     }).isRequired,
   }
 
@@ -30,6 +39,7 @@ class Map extends Component {
     images: {},
   }
 
+
   componentDidUpdate(prevProps) {
     const {
       map: {
@@ -37,30 +47,27 @@ class Map extends Component {
       },
     } = this.props
 
-    if (prevProps.map.items.length !== items.length) {
-      const ctx = this.canvas.getContext('2d')
+    const ctx = this.canvas.getContext('2d')
+    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
 
-      ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
-
-      items.forEach((item) => {
-        if (this.state.images[item.src]) {
-          ctx.drawImage(this.state.images[item.src], item.x, item.y)
-        } else {
+    items.forEach((item) => {
+      if (this.state.images[item.src]) {
+        this.drawItemToCanvas(this.state.images[item.src], item)
+      } else {
           const baseImage = new Image() // eslint-disable-line
-          baseImage.src = item.src
-          baseImage.onload = () => {
-            ctx.drawImage(baseImage, item.x, item.y)
-            this.setState({
-              ...this.state,
-              images: {
-                ...this.state.images,
-                [item.src]: baseImage,
-              },
-            })
-          }
+        baseImage.src = item.src
+        baseImage.onload = () => {
+          this.drawItemToCanvas(baseImage, item)
+          this.setState({
+            ...this.state,
+            images: {
+              ...this.state.images,
+              [item.src]: baseImage,
+            },
+          })
         }
-      })
-    }
+      }
+    })
   }
 
   getMouseCursor = () => {
@@ -74,9 +81,27 @@ class Map extends Component {
         return get(landscape, 'src')
       case DELETE:
         return '/images/icons/remove.png'
+      case SELECT:
+        return '/images/icons/hand-pointer.png'
       default:
         return undefined
     }
+  }
+
+  drawItemToCanvas(image, item) {
+    const ctx = this.canvas.getContext('2d')
+    const {
+      mapEditMode,
+    } = this.props
+
+    if (mapEditMode.mode === SELECT && get(item, 'selected')) {
+      ctx.globalAlpha = 0.5
+      ctx.drawImage(image, item.x, item.y)
+      ctx.globalAlpha = 1
+
+      return
+    }
+    ctx.drawImage(image, item.x, item.y)
   }
 
   handleAddMapItem = (evt) => {
@@ -112,7 +137,6 @@ class Map extends Component {
       },
     } = this.props
 
-
     const mousePosition = {
       x: getMousePos(evt, this.canvas).x,
       y: getMousePos(evt, this.canvas).y,
@@ -120,6 +144,22 @@ class Map extends Component {
 
     // fire action
     deleteMapItems(mousePosition, items)
+  }
+
+  handleSelectMapItem = (evt) => {
+    const {
+      selectMapItems,
+      map: {
+        items,
+      },
+    } = this.props
+
+    const mousePosition = {
+      x: getMousePos(evt, this.canvas).x,
+      y: getMousePos(evt, this.canvas).y,
+    }
+
+    selectMapItems(mousePosition, items)
   }
 
   handleClick = (evt) => {
@@ -131,6 +171,7 @@ class Map extends Component {
     // fire action
     if (mode === ADD) this.handleAddMapItem(evt)
     if (mode === DELETE) this.handleDeleteMapItem(evt)
+    if (mode === SELECT) this.handleSelectMapItem(evt)
   }
 
 
