@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { get } from 'lodash'
-import { landscapeProps, itemProps } from '../../helpers/propTypes'
+import { landscapeProps } from '../../helpers/propTypes'
 import { getMousePos } from '../../helpers/utils'
 
 import './Map.css'
@@ -40,7 +40,7 @@ class Map extends Component {
   }
 
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate() {
     const {
       map: {
         items,
@@ -90,11 +90,8 @@ class Map extends Component {
 
   drawItemToCanvas(image, item) {
     const ctx = this.canvas.getContext('2d')
-    const {
-      mapEditMode,
-    } = this.props
 
-    if (mapEditMode.mode === SELECT && get(item, 'selected')) {
+    if (get(item, 'selected')) {
       ctx.globalAlpha = 0.5
       ctx.drawImage(image, item.x, item.y)
       ctx.globalAlpha = 1
@@ -109,6 +106,9 @@ class Map extends Component {
 
     const {
       addMapItem,
+      map: {
+        items,
+      },
       landscape: {
         src,
         width,
@@ -126,7 +126,7 @@ class Map extends Component {
     }
 
     // fire action
-    addMapItem(newMapItem)
+    addMapItem(newMapItem, items)
   }
 
   handleDeleteMapItem = (evt) => {

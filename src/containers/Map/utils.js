@@ -23,7 +23,24 @@ export const isItemActive = (x, y, item = {
   return false
 }
 
-export const selectItems = (x, y, items) =>
-  items.map(item => ({ ...item, selected: isItemActive(x, y, item) }))
+export const isCursorActive = (x, y, items) =>
+  items.reduce((acc, item) => {
+    if (acc) return true
+
+    return isItemActive(x, y, item)
+  }, false)
+
+export const deselectItems = items => items.map(i => ({ ...i, selected: false }))
+
+export const selectItems = (x, y, items) => {
+  if (isCursorActive(x, y, items)) {
+    return items.map(item => ({ ...item, selected: item.selected || isItemActive(x, y, item) }))
+  }
+
+  return deselectItems(items)
+}
+
 
 export const deleteItems = (x, y, items) => items.filter(item => !isItemActive(x, y, item))
+
+export const addMapItems = (item, items) => [...items, item]

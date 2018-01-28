@@ -19,15 +19,6 @@ function map(state = initialState, action) {
       return dotProp.set(state, 'items', items)
     }
 
-    case ADD_MAP_ITEM: {
-      const {
-        payload: {
-          item,
-        },
-      } = action
-      return dotProp.set(state, 'items', items => [...items, item])
-    }
-
     default:
       return state
   }

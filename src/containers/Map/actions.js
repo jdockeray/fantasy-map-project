@@ -1,14 +1,17 @@
 import {
-  ADD_MAP_ITEM,
   SET_MAP_ITEMS,
   CHANGE_EDIT_MODE,
 } from '../../reducers/map'
-import { deleteItems, selectItems } from './utils'
+import {
+  deleteItems,
+  selectItems,
+  addMapItems,
+} from './utils'
 
-export const addMapItem = item => ({
-  type: ADD_MAP_ITEM,
+export const addMapItem = (item, items = []) => ({
+  type: SET_MAP_ITEMS,
   payload: {
-    item,
+    items: addMapItems(item, items),
   },
 })
 

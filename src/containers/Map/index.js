@@ -12,7 +12,6 @@ import { addMapItem, deleteMapItems, changeEditMode, selectMapItems } from './ac
 import * as editTypes from './types'
 
 const mapEditModeSelector = state => state.mapEditMode
-
 const mapEditModeControls = createSelector(
   mapEditModeSelector,
   mapEditType => [
@@ -46,8 +45,9 @@ class MapWrapper extends Component {
     // actions
     addMapItem: PropTypes.func.isRequired,
     deleteMapItems: PropTypes.func.isRequired,
-    changeEditMode: PropTypes.func.isRequired,
     selectMapItems: PropTypes.func.isRequired,
+    changeEditMode: PropTypes.func.isRequired,
+
 
     // state
     background: PropTypes.string,
