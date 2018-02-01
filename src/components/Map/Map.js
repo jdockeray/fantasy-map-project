@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { get } from 'lodash'
+import { fabric } from 'fabric'
 import { landscapeProps } from '../../helpers/propTypes'
 import { getMousePos } from '../../helpers/utils'
-
 import './Map.css'
 import { ADD, DELETE, SELECT } from '../../containers/Map/types'
 
@@ -39,6 +39,14 @@ class Map extends Component {
     images: {},
   }
 
+  componentDidMount() {
+    this.mapCanvas = new fabric.Canvas('map')
+    this.mapCanvas.on('mouse:down', (options) => {
+      this.handleClick(options.e)
+      console.log(options.e.clientX, options.e.clientY)
+    })
+    this.mapCanvas.hoverCursor = `url(${this.getMouseCursor()}),auto`
+  }
 
   componentDidUpdate() {
     const {
@@ -47,27 +55,29 @@ class Map extends Component {
       },
     } = this.props
 
-    const ctx = this.canvas.getContext('2d')
-    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    // create a rectangle object
 
-    items.forEach((item) => {
-      if (this.state.images[item.src]) {
-        this.drawItemToCanvas(this.state.images[item.src], item)
-      } else {
-          const baseImage = new Image() // eslint-disable-line
-        baseImage.src = item.src
-        baseImage.onload = () => {
-          this.drawItemToCanvas(baseImage, item)
-          this.setState({
-            ...this.state,
-            images: {
-              ...this.state.images,
-              [item.src]: baseImage,
-            },
-          })
-        }
-      }
-    })
+    // const ctx = this.canvas.getContext('2d')
+    // ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    //
+    // items.forEach((item) => {
+    //   if (this.state.images[item.src]) {
+    //     this.drawItemToCanvas(this.state.images[item.src], item)
+    //   } else {
+    //       const baseImage = new Image() // eslint-disable-line
+    //     baseImage.src = item.src
+    //     baseImage.onload = () => {
+    //       this.drawItemToCanvas(baseImage, item)
+    //       this.setState({
+    //         ...this.state,
+    //         images: {
+    //           ...this.state.images,
+    //           [item.src]: baseImage,
+    //         },
+    //       })
+    //     }
+    //   }
+    // })
   }
 
   getMouseCursor = () => {
@@ -117,16 +127,23 @@ class Map extends Component {
     } = this.props
 
 
-    const newMapItem = {
-      src,
-      x: getMousePos(evt, this.canvas).x,
-      y: getMousePos(evt, this.canvas).y,
-      width,
-      height,
-    }
+    fabric.Image.fromURL(src, (img) => {
+      img.left = getMousePos(evt, this.canvas).x
+      img.top = getMousePos(evt, this.canvas).y
+      this.mapCanvas.add(img)
+      this.mapCanvas.hoverCursor = `url(${this.getMouseCursor()}),auto`
 
-    // fire action
-    addMapItem(newMapItem, items)
+    })
+    // const newMapItem = {
+    //   src,
+    //   x: getMousePos(evt, this.canvas).x,
+    //   y: getMousePos(evt, this.canvas).y,
+    //   width,
+    //   height,
+    // }
+    //
+    // // fire action
+    // addMapItem(newMapItem, items)
   }
 
   handleDeleteMapItem = (evt) => {
@@ -183,6 +200,9 @@ class Map extends Component {
     return (
       <div
         className="mapFrame"
+        style={{
+          cursor: `url(${this.getMouseCursor()}),auto`,
+        }}
       >
         <canvas
           ref={(c) => { this.canvas = c }}
@@ -192,7 +212,6 @@ class Map extends Component {
           onClick={this.handleClick}
           style={{
             backgroundImage: `url(${background})`,
-            cursor: `url(${this.getMouseCursor()}),auto`,
           }}
         />
       </div>
