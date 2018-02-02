@@ -92,8 +92,7 @@ class MapWrapper extends Component {
           />
         </Row>
         <Row>
-          <Col md={1} />
-          <Col md={10} >
+          <Col md={12} >
             <Map
               {...this.props}
             />

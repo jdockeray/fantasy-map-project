@@ -13,6 +13,10 @@ button:focus {
   margin: 0 auto;
 }
 
+.item {
+    display: flex !important;
+    background-color: #fdf9f3; 
+}
 .carousel-control.left, .carousel-control.right {
    background-image:none !important;
    filter:none !important;

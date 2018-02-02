@@ -56,7 +56,7 @@ export class LandscapeForm extends Component {
 
     return (
       <FieldCarousel
-        numberPerSlide={15}
+        numberPerSlide={5}
         fields={landscapes[match.params.category].images.map(background =>
         (
           <Field

@@ -17,7 +17,7 @@ export default function Control({
   items = [],
 }) {
   return (
-    <ButtonGroup>
+    <ButtonGroup className="mapControls">
       {
         items.map(({ label, text, active }) => (
 

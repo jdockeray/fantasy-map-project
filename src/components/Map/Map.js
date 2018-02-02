@@ -123,8 +123,8 @@ class Map extends Component {
       >
         <canvas
           ref={(c) => { this.canvas = c }}
-          width={900}
-          height={600}
+          width={2000}
+          height={2000}
           id="map"
           onClick={this.handleClick}
           style={{

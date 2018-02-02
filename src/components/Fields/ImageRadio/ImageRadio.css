@@ -5,8 +5,3 @@
 .imageRadio.checked  {
   opacity: 0.7;
 }
-
-.imageRadio {
-  float: left;
-  width: 20%;
-}

@@ -26,7 +26,7 @@ export default function FieldCarousel({
     >
       { fieldsDivided.map(field =>
         (
-          <Carousel.Item  >
+          <Carousel.Item >
             { field }
           </Carousel.Item>))}
     </Carousel>
