@@ -35,19 +35,51 @@ class Map extends Component {
     landscape: false,
   }
 
+  state = {
+    images: {},
+  }
+
   componentDidMount() {
     this.mapCanvas = new fabric.Canvas('map')
     this.mapCanvas.on('mouse:down', (options) => {
       this.handleClick(options.e)
       console.log(options.e.clientX, options.e.clientY)
     })
-    this.mapCanvas.on('mouse:over', (evt) => {
-      this.mapCanvas.defaultCursor = `url(${this.getMouseCursor()}),auto`
-      this.mapCanvas.hoverCursor = `url(${this.getMouseCursor()}),auto`
-    })
     this.mapCanvas.defaultCursor = `url(${this.getMouseCursor()}),auto`
     this.mapCanvas.hoverCursor = `url(${this.getMouseCursor()}),auto`
     this.mapCanvas.freeDrawingCursor = `url(${this.getMouseCursor()}),auto`
+  }
+
+  componentDidUpdate() {
+    const {
+      map: {
+        items,
+      },
+    } = this.props
+
+    // create a rectangle object
+
+    // const ctx = this.canvas.getContext('2d')
+    // ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    //
+    // items.forEach((item) => {
+    //   if (this.state.images[item.src]) {
+    //     this.drawItemToCanvas(this.state.images[item.src], item)
+    //   } else {
+    //       const baseImage = new Image() // eslint-disable-line
+    //     baseImage.src = item.src
+    //     baseImage.onload = () => {
+    //       this.drawItemToCanvas(baseImage, item)
+    //       this.setState({
+    //         ...this.state,
+    //         images: {
+    //           ...this.state.images,
+    //           [item.src]: baseImage,
+    //         },
+    //       })
+    //     }
+    //   }
+    // })
   }
 
   getMouseCursor = () => {
@@ -65,40 +97,88 @@ class Map extends Component {
         return '/images/icons/hand-pointer.png'
       default:
         return get(landscape, 'src')
+
     }
   }
 
-  handleAdd = (evt) => {
+  drawItemToCanvas(image, item) {
+    const ctx = this.canvas.getContext('2d')
+
+    if (get(item, 'selected')) {
+      ctx.globalAlpha = 0.5
+      ctx.drawImage(image, item.x, item.y)
+      ctx.globalAlpha = 1
+
+      return
+    }
+    ctx.drawImage(image, item.x, item.y)
+  }
+
+  handleAddMapItem = (evt) => {
     if (!this.props.landscape) return
 
     const {
+      addMapItem,
+      map: {
+        items,
+      },
       landscape: {
         src,
+        width,
+        height,
       },
     } = this.props
 
+
     fabric.Image.fromURL(src, (img) => {
-      const cloneImg = { ...img }
       img.left = getMousePos(evt, this.canvas).x
       img.top = getMousePos(evt, this.canvas).y
       this.mapCanvas.add(img)
     })
+    // const newMapItem = {
+    //   src,
+    //   x: getMousePos(evt, this.canvas).x,
+    //   y: getMousePos(evt, this.canvas).y,
+    //   width,
+    //   height,
+    // }
+    //
+    // // fire action
+    // addMapItem(newMapItem, items)
   }
 
-  handleDelete = () => {
-    const activeObject = this.mapCanvas.getActiveObject()
-    const activeGroup = this.mapCanvas.getActiveGroup()
-    if (activeObject) {
-      this.mapCanvas.remove(activeObject)
-    } else if (activeGroup) {
-      const objectsInGroup = activeGroup.getObjects()
-      this.mapCanvas.discardActiveGroup()
-      objectsInGroup.forEach((object) => {
-        this.mapCanvas.remove(object)
-      })
+  handleDeleteMapItem = (evt) => {
+    const {
+      deleteMapItems,
+      map: {
+        items,
+      },
+    } = this.props
+
+    const mousePosition = {
+      x: getMousePos(evt, this.canvas).x,
+      y: getMousePos(evt, this.canvas).y,
     }
+
+    // fire action
+    deleteMapItems(mousePosition, items)
   }
 
+  handleSelectMapItem = (evt) => {
+    const {
+      selectMapItems,
+      map: {
+        items,
+      },
+    } = this.props
+
+    const mousePosition = {
+      x: getMousePos(evt, this.canvas).x,
+      y: getMousePos(evt, this.canvas).y,
+    }
+
+    selectMapItems(mousePosition, items)
+  }
 
   handleClick = (evt) => {
     const {
@@ -107,10 +187,11 @@ class Map extends Component {
       },
     } = this.props
     // fire action
-    if (mode === ADD) this.handleAdd(evt)
-    if (mode === DELETE) this.handleDelete(evt)
-    // if (mode === SELECT) this.handleSelectMapItem(evt)
+    if (mode === ADD) this.handleAddMapItem(evt)
+    if (mode === DELETE) this.handleDeleteMapItem(evt)
+    if (mode === SELECT) this.handleSelectMapItem(evt)
   }
+
 
   render() {
     const {
@@ -120,6 +201,9 @@ class Map extends Component {
     return (
       <div
         className="mapFrame"
+        style={{
+          cursor: `url(${this.getMouseCursor()}),auto`,
+        }}
       >
         <canvas
           ref={(c) => { this.canvas = c }}
