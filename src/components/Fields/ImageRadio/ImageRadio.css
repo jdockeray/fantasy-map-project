@@ -1,7 +1,12 @@
-.imageRadio input {
+/* .imageRadio input {
   display: none;
+} */
+
+.imageRadio.checked  {
+  opacity: 0.7;
 }
 
-.imageRadio .checked  {
-  border: solid 5px #333;
+.imageRadio {
+  float: left;
+  width: 20%;
 }

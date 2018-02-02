@@ -19,22 +19,23 @@ export default class MyCustomInput extends Component {
       input: { onChange },
     } = this.props
     return (
-      <label className="imageRadio">
-        <div
-          className={classNames({
-            checked,
-          })}
-        >
-          <img
-            src={src}
-            alt="A map icon"
-            ref={(image) => { this.image = image }}
-          />
-        </div>
-        <input
+      <div
+        className={classNames(
+          'imageRadio',
+          {
+          checked,
+        })}
+      >
+
+
+        <input id="image"
+          type="image"
           {...this.props.input}
-          type="radio"
-          onChange={() => {
+
+          alt="A map icon"
+          src={src}
+          ref={(image) => { this.image = image }}
+          onClick={() => {
             onChange({
               src,
               width: this.image.width,
@@ -42,7 +43,8 @@ export default class MyCustomInput extends Component {
             })
           }}
         />
-      </label>
+      </div>
+
     )
   }
 }

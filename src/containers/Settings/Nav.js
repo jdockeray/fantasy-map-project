@@ -1,4 +1,4 @@
-import { Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap'
+import { Nav, NavItem, NavDropdown, MenuItem, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
@@ -20,7 +20,8 @@ export class Navigation extends Component {
     const {
       history,
     } = this.props
-    history.push(`/settings/landscape/${eventKey}`)
+
+    history.push(`/settings/landscape/${eventKey.target.value.toLowerCase()}`)
   }
 
   render() {
@@ -37,19 +38,22 @@ export class Navigation extends Component {
           <NavItem eventKey="landscape" href="/settings/landscape" title="Item">Landscape</NavItem>
         </Nav>
         <Condition rule={location.pathname.indexOf('landscape') !== -1}>
-          <Nav bsStyle="pills" justified activeKey={match.params.category} onSelect={this.handleNestedSelect}>
-            <NavItem eventKey="volcano" href="/settings/landscape/volcano">Volcano</NavItem>
-            <NavItem eventKey="trees" href="/settings/landscape/trees" title="Item">Trees</NavItem>
-            <NavItem eventKey="town" href="/settings/landscape/town" title="Item">Town</NavItem>
-            <NavItem eventKey="rocks" href="/settings/landscape/rocks" title="Item">Rocks</NavItem>
-            <NavItem eventKey="plants" href="/settings/landscape/plants" title="Item">Plants</NavItem>
-            <NavItem eventKey="ocean" href="/settings/landscape/ocean" title="Item">Ocean</NavItem>
-            <NavItem eventKey="misc" href="/settings/landscape/misc" title="Item">Misc</NavItem>
-            <NavItem eventKey="hills" href="/settings/landscape/hills" title="Item">Hills</NavItem>
-            <NavItem eventKey="grass" href="/settings/landscape/grass" title="Item">Grass</NavItem>
-            <NavItem eventKey="animals" href="/settings/landscape/animals" title="Item">Animals</NavItem>
-          </Nav>
+          <FormGroup controlId="formControlsSelect" onSelect={this.handleNestedSelect}>
+            <FormControl componentClass="select" placeholder="select" onChange={this.handleNestedSelect}>
+              <option eventKey="volcano" href="/settings/landscape/volcano">Volcano</option>
+              <option eventKey="trees" href="/settings/landscape/trees" title="Item">Trees</option>
+              <option eventKey="town" href="/settings/landscape/town" title="Item">Town</option>
+              <option eventKey="rocks" href="/settings/landscape/rocks" title="Item">Rocks</option>
+              <option eventKey="plants" href="/settings/landscape/plants" title="Item">Plants</option>
+              <option eventKey="ocean" href="/settings/landscape/ocean" title="Item">Ocean</option>
+              <option eventKey="misc" href="/settings/landscape/misc" title="Item">Misc</option>
+              <option eventKey="hills" href="/settings/landscape/hills" title="Item">Hills</option>
+              <option eventKey="grass" href="/settings/landscape/grass" title="Item">Grass</option>
+              <option eventKey="animals" href="/settings/landscape/animals" title="Item">Animals</option>
+            </FormControl>
+          </FormGroup>
         </Condition>
+
 
       </div>
     )

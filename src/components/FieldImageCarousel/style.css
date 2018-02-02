@@ -1,0 +1,22 @@
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+/* itemCarousel {
+  margin-left:
+} */
+.carousel-inner {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.carousel-control.left, .carousel-control.right {
+   background-image:none !important;
+   filter:none !important;
+}
+#itemCarousel {
+  min-height: 200px;
+}
