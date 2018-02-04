@@ -84,21 +84,21 @@ class MapWrapper extends Component {
     } = this.props
 
     return (
-      <Grid>
-        <Row>
+      <div>
+
           <Control
             items={mapControls}
             callback={this.handleEditMode}
           />
-        </Row>
-        <Row>
+        
+
           <Col md={12} >
             <Map
               {...this.props}
             />
           </Col>
-        </Row>
-      </Grid>
+        
+      </div>
     )
   }
 }

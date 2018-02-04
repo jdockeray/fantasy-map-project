@@ -1,13 +1,11 @@
 import React from 'react'
-import { Button } from 'react-bootstrap'
 import {
   BrowserRouter as Router,
   Route,
-  Link,
 } from 'react-router-dom'
 
 import Intro from './components/Intro/Intro'
-import Settings from './containers/Settings'
+import { Settings } from './containers/Settings'
 import Map from './containers/Map'
 
 
@@ -18,11 +16,12 @@ function App() {
     <Router>
       <div className="App">
         <header className="App-header clearfix">
-          <Route exact path="/" component={ Intro } />
-          <Route path="/settings" component={ Settings }/>
+          <Route exact path="/" component={Intro} />
+          <Route path="/settings" component={Settings} />
         </header>
         <section className="main">
-          <Map />
+          <Route path="/settings" component={Map} />
+
         </section>
       </div>
     </Router>

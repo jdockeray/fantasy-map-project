@@ -1,0 +1,47 @@
+.collapsibleColumn {
+  width: 30%;
+  height: 100%;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 1000;
+}
+.collapsibleColumn.collapsed {
+  width: auto;
+}
+
+.collapsibleColumn  .control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(253,249,243, 0.9);
+    border: solid 1px;
+    height: 100%;
+    width: 30px;
+
+}
+
+.collapsibleColumn  .panel {
+  width: 90%;
+  background-color: rgba(253,249,243, 0.9);
+  padding-top: 30px;
+  padding: 10px;
+
+}
+
+.collapsibleColumn  .panel.collapsed {
+  display: none;
+  width: 0%;
+
+}
+
+.collapsibleColumn .panel, .collapsibleColumn .control {
+  height: 100%;
+  float: left;
+}
+
+.collapsibleColumn  .control:hover {
+  background-color: #333;
+
+  color: #fff;
+}

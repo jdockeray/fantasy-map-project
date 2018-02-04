@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { FormGroup } from 'react-bootstrap'
 import { get } from 'lodash'
-import { Carousel } from 'react-bootstrap'
 import { Field, reduxForm, formValueSelector } from 'redux-form' // ES6
 import './Settings.css'
 import ImageRadio from '../../components/Fields/ImageRadio/ImageRadio'
@@ -55,22 +55,24 @@ export class LandscapeForm extends Component {
     } = this.props
 
     return (
-      <FieldCarousel
-        numberPerSlide={5}
-        fields={landscapes[match.params.category].images.map(background =>
-        (
-          <Field
-            component={ImageRadio}
-            type="radio"
-            name="landscape"
-            value={background.src}
-            onChange={this.handleFieldChange}
-            src={background.src}
-            key={background.src}
-            checked={get(landscapeCurrentValue, 'src') === background.src}
-          />
-        ))}
-      />
+      <FormGroup>
+        <FieldCarousel
+          numberPerSlide={20}
+          fields={landscapes[match.params.category].images.map(background =>
+            (
+              <Field
+                component={ImageRadio}
+                type="radio"
+                name="landscape"
+                value={background.src}
+                onChange={this.handleFieldChange}
+                src={background.src}
+                key={background.src}
+                checked={get(landscapeCurrentValue, 'src') === background.src}
+              />
+            ))}
+        />
+      </FormGroup>
     )
   }
 }

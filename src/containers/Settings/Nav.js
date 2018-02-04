@@ -39,6 +39,7 @@ export class Navigation extends Component {
         </Nav>
         <Condition rule={location.pathname.indexOf('landscape') !== -1}>
           <FormGroup controlId="formControlsSelect" onSelect={this.handleNestedSelect}>
+            <ControlLabel>Please select an icon to add to the landscape</ControlLabel>
             <FormControl componentClass="select" placeholder="select" onChange={this.handleNestedSelect}>
               <option eventKey="volcano" href="/settings/landscape/volcano">Volcano</option>
               <option eventKey="trees" href="/settings/landscape/trees" title="Item">Trees</option>
