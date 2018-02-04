@@ -13,9 +13,9 @@ export default class MyCustomInput extends Component {
 
   render() {
     const {
-      meta,
       src,
       checked,
+      input,
       input: { onChange },
     } = this.props
     return (
@@ -23,14 +23,14 @@ export default class MyCustomInput extends Component {
         className={classNames(
           'imageRadio',
           {
-          checked,
-        })}
+            checked,
+          },
+        )}
       >
-
-
-        <input id="image"
+        <input
+          id="image"
           type="image"
-          {...this.props.input}
+          {...input}
 
           alt="A map icon"
           src={src}
