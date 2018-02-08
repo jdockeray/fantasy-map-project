@@ -5,7 +5,7 @@ import { fabric } from 'fabric'
 import { landscapeProps } from '../../helpers/propTypes'
 import { getMousePos } from '../../helpers/utils'
 import './Map.css'
-import { ADD, DELETE, SELECT } from '../../containers/Map/types'
+import { ADD, DELETE, SELECT, DRAW } from '../../containers/Map/types'
 
 class Map extends Component {
   static propTypes = {
@@ -13,20 +13,13 @@ class Map extends Component {
     selectMapItems: PropTypes.func.isRequired,
     addMapItem: PropTypes.func.isRequired,
     deleteMapItems: PropTypes.func.isRequired,
-
-    // state
-    map: PropTypes.shape({
-      items: PropTypes.arrayOf(PropTypes.shape({
-        width: PropTypes.number.isRequired,
-        height: PropTypes.number.isRequired,
-        x: PropTypes.number.isRequired,
-        y: PropTypes.number.isRequired,
-      })).isRequired,
-    }).isRequired,
     landscape: landscapeProps,
     background: PropTypes.string,
+    drawing: PropTypes.shape({
+      width: PropTypes.number
+    }),
     mapEditMode: PropTypes.shape({
-      mode: PropTypes.oneOf([ADD, DELETE]),
+      mode: PropTypes.oneOf([ADD, DELETE, SELECT, DRAW]),
     }).isRequired,
   }
 
@@ -64,7 +57,7 @@ class Map extends Component {
       case SELECT:
         return '/images/icons/hand-pointer.png'
       default:
-        return get(landscape, 'src')
+        return null
     }
   }
 
@@ -76,9 +69,9 @@ class Map extends Component {
         src,
       },
     } = this.props
+    this.mapCanvas.isDrawingMode = false
 
     fabric.Image.fromURL(src, (img) => {
-      const cloneImg = { ...img }
       img.left = getMousePos(evt, this.canvas).x
       img.top = getMousePos(evt, this.canvas).y
       this.mapCanvas.add(img)
@@ -88,6 +81,7 @@ class Map extends Component {
   handleDelete = () => {
     const activeObject = this.mapCanvas.getActiveObject()
     const activeGroup = this.mapCanvas.getActiveGroup()
+    this.mapCanvas.isDrawingMode = false
     if (activeObject) {
       this.mapCanvas.remove(activeObject)
     } else if (activeGroup) {
@@ -99,6 +93,15 @@ class Map extends Component {
     }
   }
 
+  handleSelect = () => {
+    this.mapCanvas.isDrawingMode = false
+  }
+
+  handleDraw = () => {
+    this.mapCanvas.isDrawingMode = true
+    this.mapCanvas.freeDrawingBrush.width = this.props.drawing.width
+  }
+
 
   handleClick = (evt) => {
     const {
@@ -106,10 +109,12 @@ class Map extends Component {
         mode,
       },
     } = this.props
+
     // fire action
     if (mode === ADD) this.handleAdd(evt)
     if (mode === DELETE) this.handleDelete(evt)
-    // if (mode === SELECT) this.handleSelectMapItem(evt)
+    if (mode === DRAW) this.handleDraw(evt)
+    if (mode === SELECT) this.handleSelect(evt)
   }
 
   render() {

@@ -2,3 +2,4 @@
 export const ADD = 'ADD'
 export const DELETE = 'DELETE'
 export const SELECT = 'SELECT'
+export const DRAW = 'DRAW'

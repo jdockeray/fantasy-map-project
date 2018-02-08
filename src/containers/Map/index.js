@@ -18,6 +18,7 @@ const mapEditModeControls = createSelector(
     editTypes.ADD,
     editTypes.DELETE,
     editTypes.SELECT,
+    editTypes.DRAW,
   ].map(label => ({
     label,
     text: label.toLowerCase(),
@@ -26,8 +27,9 @@ const mapEditModeControls = createSelector(
 )
 
 const mapStateToProps = state => ({
-  background: get(state, 'form.settings.values.background') || null,
-  landscape: get(state, 'form.settings.values.landscape') || null,
+  background: get(state, 'form.settings.values.background'),
+  landscape: get(state, 'form.settings.values.landscape'),
+  drawing: get(state, 'form.drawing.values'),
   map: state.map,
   mapEditMode: state.mapEditMode,
   mapControls: mapEditModeControls(state),
@@ -86,18 +88,18 @@ class MapWrapper extends Component {
     return (
       <div>
 
-          <Control
-            items={mapControls}
-            callback={this.handleEditMode}
-          />
-        
+        <Control
+          items={mapControls}
+          callback={this.handleEditMode}
+        />
 
-          <Col md={12} >
-            <Map
-              {...this.props}
-            />
-          </Col>
-        
+
+        <Col md={12} >
+          <Map
+            {...this.props}
+          />
+        </Col>
+
       </div>
     )
   }

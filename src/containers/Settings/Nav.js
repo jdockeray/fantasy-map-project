@@ -36,6 +36,8 @@ export class Navigation extends Component {
         <Nav bsStyle="tabs" activeKey={match.params.active} onSelect={this.handleSelect}>
           <NavItem eventKey="background" href="/settings/texture">Texture</NavItem>
           <NavItem eventKey="landscape" href="/settings/landscape" title="Item">Landscape</NavItem>
+          <NavItem eventKey="draw" href="/settings/draw" title="Item">Draw</NavItem>
+
         </Nav>
         <Condition rule={location.pathname.indexOf('landscape') !== -1}>
           <FormGroup controlId="formControlsSelect" onSelect={this.handleNestedSelect}>
