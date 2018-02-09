@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { get } from 'lodash'
+import { get, isEqual } from 'lodash'
 import { fabric } from 'fabric'
 import { landscapeProps } from '../../helpers/propTypes'
 import { getMousePos } from '../../helpers/utils'
@@ -16,7 +16,7 @@ class Map extends Component {
     landscape: landscapeProps,
     background: PropTypes.string,
     drawing: PropTypes.shape({
-      width: PropTypes.number
+      width: PropTypes.number,
     }),
     mapEditMode: PropTypes.shape({
       mode: PropTypes.oneOf([ADD, DELETE, SELECT, DRAW]),
@@ -26,13 +26,22 @@ class Map extends Component {
   static defaultProps = {
     background: '',
     landscape: false,
+    drawing: {
+      width: 1,
+    },
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.data !== this.props.data) {
+
+    }
+  }
+
 
   componentDidMount() {
     this.mapCanvas = new fabric.Canvas('map')
     this.mapCanvas.on('mouse:down', (options) => {
       this.handleClick(options.e)
-      console.log(options.e.clientX, options.e.clientY)
     })
     this.mapCanvas.on('mouse:over', (evt) => {
       this.mapCanvas.defaultCursor = `url(${this.getMouseCursor()}),auto`
@@ -41,6 +50,16 @@ class Map extends Component {
     this.mapCanvas.defaultCursor = `url(${this.getMouseCursor()}),auto`
     this.mapCanvas.hoverCursor = `url(${this.getMouseCursor()}),auto`
     this.mapCanvas.freeDrawingCursor = `url(${this.getMouseCursor()}),auto`
+  }
+
+  shouldComponentUpdate({
+    mapEditMode: {
+      mode,
+    },
+  }, nextState) {
+    if (mode !== this.props.mapEditMode.mode) {
+      this.handleEditChange(mode)
+    }
   }
 
   getMouseCursor = () => {
@@ -61,6 +80,15 @@ class Map extends Component {
     }
   }
 
+  handleEditChange = (mode) => {
+    if (this.mapCanvas) {
+      if (mode === ADD) this.handleAdd()
+      if (mode === DELETE) this.handleDelete()
+      if (mode === DRAW) this.handleDraw()
+      if (mode === SELECT) this.handleSelect()
+    }
+  }
+
   handleAdd = (evt) => {
     if (!this.props.landscape) return
 
@@ -70,7 +98,7 @@ class Map extends Component {
       },
     } = this.props
     this.mapCanvas.isDrawingMode = false
-
+    if (!evt) return
     fabric.Image.fromURL(src, (img) => {
       img.left = getMousePos(evt, this.canvas).x
       img.top = getMousePos(evt, this.canvas).y
@@ -98,8 +126,10 @@ class Map extends Component {
   }
 
   handleDraw = () => {
-    this.mapCanvas.isDrawingMode = true
-    this.mapCanvas.freeDrawingBrush.width = this.props.drawing.width
+    if (!this.mapCanvas.isDrawingMode) {
+      this.mapCanvas.isDrawingMode = true
+      this.mapCanvas.freeDrawingBrush.width = get(this.props, 'drawing.width', 1)
+    }
   }
 
 
@@ -109,12 +139,11 @@ class Map extends Component {
         mode,
       },
     } = this.props
-
     // fire action
     if (mode === ADD) this.handleAdd(evt)
-    if (mode === DELETE) this.handleDelete(evt)
-    if (mode === DRAW) this.handleDraw(evt)
-    if (mode === SELECT) this.handleSelect(evt)
+    if (mode === DELETE) this.handleDelete()
+    if (mode === DRAW) this.handleDraw()
+    if (mode === SELECT) this.handleSelect()
   }
 
   render() {
