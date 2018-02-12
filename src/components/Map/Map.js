@@ -31,35 +31,66 @@ class Map extends Component {
     },
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.data !== this.props.data) {
-
-    }
-  }
-
-
   componentDidMount() {
     this.mapCanvas = new fabric.Canvas('map')
     this.mapCanvas.on('mouse:down', (options) => {
       this.handleClick(options.e)
     })
+
     this.mapCanvas.on('mouse:over', (evt) => {
       this.mapCanvas.defaultCursor = `url(${this.getMouseCursor()}),auto`
       this.mapCanvas.hoverCursor = `url(${this.getMouseCursor()}),auto`
+      this.mapCanvas.freeDrawingCursor = `url(${this.getMouseCursor()}),auto`
     })
     this.mapCanvas.defaultCursor = `url(${this.getMouseCursor()}),auto`
     this.mapCanvas.hoverCursor = `url(${this.getMouseCursor()}),auto`
-    this.mapCanvas.freeDrawingCursor = `url(${this.getMouseCursor()}),auto`
   }
 
   shouldComponentUpdate({
+    drawing: {
+      width
+    },
     mapEditMode: {
       mode,
     },
-  }, nextState) {
+  }) {
     if (mode !== this.props.mapEditMode.mode) {
       this.handleEditChange(mode)
     }
+    if (width !== this.props.drawing.width) {
+      this.handleDraw(this.props)
+    }
+    return true
+  }
+
+  getDrawImage = () => {
+    return null
+    // NEED TO REFACTOR THIS, VERY SLOW, just RETURN NULL for now
+    // const {
+    //   drawing,
+    // } = this.props
+    // const width = (drawing.width < 5 ? 5 : drawing.width) * 2
+    // const canvas = document.createElement('canvas')
+    // const fabricCanvas = new fabric.Canvas(canvas)
+    // canvas.width = width * 2
+    // canvas.height = width * 2
+    // document.body.appendChild(canvas);
+    // const circle = new fabric.Circle({
+    //   radius: width, fill: 'black', left: 0, top: 0,
+    // })
+    // fabricCanvas.add(circle)
+    // const dataURL = fabricCanvas.toDataURL('image/png')
+    // return dataURL
+
+
+    // FONT AWESOME STUFF
+    // below could keep shows how to get fa and add as canvas on hover
+    // const ctx = canvas.getContext('2d')
+    // ctx.fillStyle = '#000000'
+    // ctx.font = '24px FontAwesome'
+    // ctx.textAlign = 'center'
+    // ctx.textBaseline = 'middle'
+    // ctx.fillText('\uf002', 12, 12)
   }
 
   getMouseCursor = () => {
@@ -67,7 +98,6 @@ class Map extends Component {
       mapEditMode,
       landscape,
     } = this.props
-
     switch (mapEditMode.mode) {
       case ADD:
         return get(landscape, 'src')
@@ -75,6 +105,9 @@ class Map extends Component {
         return '/images/icons/remove.png'
       case SELECT:
         return '/images/icons/hand-pointer.png'
+      case DRAW:
+        return this.getDrawImage()
+        // return '/images/icons/pencil.png'
       default:
         return null
     }
@@ -84,7 +117,7 @@ class Map extends Component {
     if (this.mapCanvas) {
       if (mode === ADD) this.handleAdd()
       if (mode === DELETE) this.handleDelete()
-      if (mode === DRAW) this.handleDraw()
+      if (mode === DRAW) this.handleDraw(this.props)
       if (mode === SELECT) this.handleSelect()
     }
   }
@@ -125,11 +158,36 @@ class Map extends Component {
     this.mapCanvas.isDrawingMode = false
   }
 
-  handleDraw = () => {
-    if (!this.mapCanvas.isDrawingMode) {
-      this.mapCanvas.isDrawingMode = true
-      this.mapCanvas.freeDrawingBrush.width = get(this.props, 'drawing.width', 1)
+
+  handleDraw = ({
+    drawing: {
+      width,
+      mode,
+    },
+  }) => {
+    const options = {
+      colour: '#333',
+      drawingLineWidth: 0,
+      drawingShadowWidth: 0,
+      drawingShadowColour: '#333',
     }
+
+
+    this.mapCanvas.isDrawingMode = true
+    this.mapCanvas.freeDrawingBrush.color = options.colour
+    if (mode === 'spray') {
+      this.mapCanvas.freeDrawingBrush = new fabric.SprayBrush(this.mapCanvas)
+    } else {
+      this.mapCanvas.freeDrawingBrush = new fabric.PencilBrush(this.mapCanvas)
+    }
+    this.mapCanvas.freeDrawingBrush.shadow = new fabric.Shadow({
+      blur: width,
+      offsetX: 0,
+      offsetY: 0,
+      affectStroke: true,
+      color: options.colour,
+    })
+    this.mapCanvas.freeDrawingBrush.width = width
   }
 
 
@@ -142,7 +200,7 @@ class Map extends Component {
     // fire action
     if (mode === ADD) this.handleAdd(evt)
     if (mode === DELETE) this.handleDelete()
-    if (mode === DRAW) this.handleDraw()
+    if (mode === DRAW) this.handleDraw(this.props)
     if (mode === SELECT) this.handleSelect()
   }
 
@@ -165,6 +223,7 @@ class Map extends Component {
             backgroundImage: `url(${background})`,
           }}
         />
+
       </div>
     )
   }

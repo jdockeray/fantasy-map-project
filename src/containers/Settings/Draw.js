@@ -11,8 +11,10 @@ import * as editTypes from '../Map/types'
 import { changeEditMode } from '../Map/actions'
 import FieldCarousel from '../../components/FieldImageCarousel'
 import PlusMinus from '../../components/Fields/PlusMinus'
+
 const selector = formValueSelector('settings')
 const landscapes = require('./static/landscapes/landscapes.json')
+
 const mapDispatchToProps = dispatch => bindActionCreators({
   changeEditMode,
 }, dispatch)
@@ -49,7 +51,17 @@ export class DrawForm extends Component {
             name="width"
             component={PlusMinus}
             placeholder="First Name"
+            defaultValue={0}
           />
+        </FormGroup>
+        <FormGroup>
+          <label htmlFor="drawMode">
+            Draw Mode:
+          </label>
+          <Field id="drawMode" name="mode" component="select" className="form-control">
+            <option value="squarePatternBrush">Pen</option>
+            <option value="spray">Spray</option>
+          </Field>
         </FormGroup>
 
       </div>
