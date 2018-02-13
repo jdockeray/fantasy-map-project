@@ -40,7 +40,7 @@ class Map extends Component {
     this.mapCanvas.on('mouse:over', (evt) => {
       this.mapCanvas.defaultCursor = `url(${this.getMouseCursor()}),auto`
       this.mapCanvas.hoverCursor = `url(${this.getMouseCursor()}),auto`
-      this.mapCanvas.freeDrawingCursor = `url(${this.getMouseCursor()}),auto`
+      this.mapCanvas.freeDrawingCursor = 'crosshair'
     })
     this.mapCanvas.defaultCursor = `url(${this.getMouseCursor()}),auto`
     this.mapCanvas.hoverCursor = `url(${this.getMouseCursor()}),auto`
@@ -171,7 +171,6 @@ class Map extends Component {
       drawingShadowWidth: 0,
       drawingShadowColour: '#333',
     }
-
 
     this.mapCanvas.isDrawingMode = true
     this.mapCanvas.freeDrawingBrush.color = options.colour
